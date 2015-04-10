@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script language="JavaScript" src="//ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>
+		<script language="JavaScript" src="scriptcam.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+		<!-- Optional theme -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		<script> 
+			$(document).ready(function() {
+				$("#webcam").scriptcam({
+					onError:onError,
+					cornerRadius:0,
+					onWebcamReady:onWebcamReady
+				});
+			});
+
+			function onError(errorId,errorMsg) {
+				alert(errorMsg);
+			}			
+			function changeCamera() {
+				$.scriptcam.changeCamera($('#cameraNames').val());
+			}
+			function onWebcamReady(cameraNames,camera,microphoneNames,microphone,volume) {
+				$.each(cameraNames, function(index, text) {
+					$('#cameraNames').append( $('<option></option>').val(index).html(text) )
+				}); 
+				$('#cameraNames').val(camera);
+			}
+			function decode() {
+				var text = $('#decoded').text();
+				//alert("Decoded text :" + text + " " + window.atob(text));
+				$('#decoded2').text(window.atob(text));
+			}
+		</script> 
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="img-thumbnail" id="webcam">
+				</div>
+				<div>
+					<img src="webcamlogo.png"/>
+					<select id="cameraNames" size="1" onChange="changeCamera()" style="width:245px;font-size:10px;height:25px;">
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<p><button class="btn btn-small" id="btn1" onclick="$('#decoded').text($.scriptcam.getBarCode());">Decode image</button></p>
+				<p id="decoded"></p>
+			</div>
+			<div class="row">
+				<p><button class="btn btn-small" id="btn1" onclick="decode();">Decode text</button></p>
+
+				<p id="decoded2">  </p>
+			</div>
+		</div>	
+	</body>
+	
+</html>
