@@ -1,8 +1,15 @@
 ## Usage
 
-### We need to run it inside a server, so install global
+### Installing globally:
+### Installation via npm. If you don't have npm yet:
 
-npm install http-server -g
+ curl https://npmjs.org/install.sh | sh
+ 
+### Once you have npm:
+
+ npm install http-server -g
+ 
+This will install http-server globally so that it may be run from the command line.
 
 ### run the server
 
