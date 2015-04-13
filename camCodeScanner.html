@@ -11,7 +11,10 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+		        <script src="excellentexport.js"></script>
+
 		<script> 
+		
 			$(document).ready(function() {
 				$("#webcam").scriptcam({
 					onError:onError,
@@ -31,12 +34,46 @@
 					$('#cameraNames').append( $('<option></option>').val(index).html(text) )
 				}); 
 				$('#cameraNames').val(camera);
+				window.setInterval(function(){
+				  decode();
+				}, 1000);
 			}
+			
+			function playasound() {
+				$.scriptcam.playMP3("applause.mp3");
+			}
+
 			function decode() {
-				var text = $('#decoded').text();
-				//alert("Decoded text :" + text + " " + window.atob(text));
-				$('#decoded2').text(window.atob(text));
-			}
+				var lastName = localStorage.getItem("lastname");
+				var text = $.scriptcam.getBarCode();
+				if (text !== lastName && text !== '')
+				{
+					localStorage.setItem("lastname", text);
+					
+					var decodedText = window.atob(text);
+					var values = decodedText.split("##");
+					$('#decoded2').text(window.atob(text));
+					$("#myTable").find('tbody')
+						.append($('<tr>')
+							.append($('<td>')
+									.text(values[0])
+							)
+							.append($('<td>')
+									.text(values[1])
+							)
+							.append($('<td>')
+									.text(values[2])
+							)
+							.append($('<td>')
+									.text(values[3])
+							)
+							.append($('<td>')
+									.text(values[4])
+							)
+						);
+						playasound();
+				}
+			 }
 		</script> 
 	</head>
 	<body>
@@ -50,7 +87,7 @@
 					</select>
 				</div>
 			</div>
-			<div class="row">
+			<!--<div class="row">
 				<p><button class="btn btn-small" id="btn1" onclick="$('#decoded').text($.scriptcam.getBarCode());">Decode image</button></p>
 				<p id="decoded"></p>
 			</div>
@@ -58,7 +95,23 @@
 				<p><button class="btn btn-small" id="btn1" onclick="decode();">Decode text</button></p>
 
 				<p id="decoded2">  </p>
-			</div>
+			</div>-->
+			<table id="myTable" class="table table-striped">
+			<thead>
+			  <tr>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Points</th>
+				<th>Information</th>
+				<th>Contact</th>
+			  </tr>
+			  </thead>
+			  <tbody>
+			  </tbody>
+			</table>
+			
+			<a download="playersData.xls" href="#" onclick="return ExcellentExport.excel(this, 'myTable', 'Sheet Name Here');">Export to Excel</a>
+
 		</div>	
 	</body>
 	

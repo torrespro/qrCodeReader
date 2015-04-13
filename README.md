@@ -13,8 +13,9 @@ This will install http-server globally so that it may be run from the command li
 
 ### run the server
 
-http-server
+ http-server
 
 ### access to the website
 
-http://localhost:8080/camCodeScanner.html
+  http://localhost:8080/camCodeScanner.html
+  
