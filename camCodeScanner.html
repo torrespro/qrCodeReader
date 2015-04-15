@@ -11,7 +11,7 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 		<!-- Latest compiled and minified JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-		        <script src="excellentexport.js"></script>
+		<script src="excellentexport.js"></script>
 
 		<script> 
 		
@@ -21,6 +21,7 @@
 					cornerRadius:0,
 					onWebcamReady:onWebcamReady
 				});
+				
 			});
 
 			function onError(errorId,errorMsg) {
@@ -72,6 +73,38 @@
 							)
 						);
 						playasound();
+						
+						//send email
+						$.ajax({
+						  type: "POST",
+						  url: "https://mandrillapp.com/api/1.0/messages/send.json",
+						  data: {
+							'key': '1f-3rvWCpOs6mlsz3REAeg',
+							'message': {
+							  'from_email': 'no_reply@capgemini.com',
+							  'to': [
+								  {
+									'email': values[1],
+									'name': values[0],
+									'type': 'to'
+								  }
+								],
+							  'autotext': 'true',
+							  'subject': 'Thanks for playing CapHun7',
+							  'html': 'Thanks for playing CapHun7 with Capgemini'
+							}
+						  }
+						 }).done(function(response) {
+						   console.log(response); // if you're into that sorta thing
+						 });
+						 
+								/* var link = "mailto:"+values[1]
+									 //+ "?cc=andres.torres@capgemini.com"
+									 + "&subject=" + escape("Thanks for playing CapHun7")
+									 + "&body=" + escape("Thanks for playing CapHun7 with Capgemini")
+							;
+
+							window.location.href = link;*/
 				}
 			 }
 		</script> 
@@ -102,8 +135,8 @@
 				<th>Name</th>
 				<th>Email</th>
 				<th>Points</th>
-				<th>Information</th>
-				<th>Contact</th>
+				<th>Capgemini oportunities</th>
+				<th>App Source Code</th>
 			  </tr>
 			  </thead>
 			  <tbody>
